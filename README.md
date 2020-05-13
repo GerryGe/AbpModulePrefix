@@ -18,9 +18,21 @@ You can add this code to Program.cs for all db-using applications (migrator, web
 Note: please also add this code to this files for PMC ef command like add-migration/update-database
 ..\Acme.BookStore.EntityFrameworkCore.DbMigrations\EntityFrameworkCore\BookStoreMigrationsDbContextFactory.cs
 For example:
+
+    BookStoreMigrationsDbContextFactory.cs file:  
     public BookStoreMigrationsDbContext CreateDbContext(string[] args)
     {
-        AbpIdentityServerDbProperties.DbTablePrefix = "MyIdentityServer";
+        //Setting your table prefix here also
+        Volo.Abp.AuditLogging.AbpAuditLoggingDbProperties.DbTablePrefix = "Dy";
+        Volo.Abp.BackgroundJobs.BackgroundJobsDbProperties.DbTablePrefix = "Dy";
+        Volo.Abp.FeatureManagement.FeatureManagementDbProperties.DbTablePrefix = "Dy";
+        Volo.Abp.IdentityServer.AbpIdentityServerDbProperties.DbTablePrefix = "Dy";
+        Volo.Abp.Identity.AbpIdentityDbProperties.DbTablePrefix = "Dy";
+        Volo.Abp.PermissionManagement.AbpPermissionManagementDbProperties.DbTablePrefix = "Dy";
+        Volo.Abp.SettingManagement.AbpSettingManagementDbProperties.DbTablePrefix = "Dy";
+        Volo.Abp.TenantManagement.AbpTenantManagementDbProperties.DbTablePrefix = "Dy";
+        //BloggingDbProperties.DbTablePrefix = "Dy";
+        //DocsDbProperties.DbTablePrefix = "Dy";
 
         var configuration = BuildConfiguration();
 
@@ -29,18 +41,36 @@ For example:
 
         return new BookStoreMigrationsDbContext(builder.Options);
     }
+    
+    ..\Dychar.Dyframe.DbMigrator\Program.cs
+    static async Task Main(string[] args)
+        {
+             //Setting your table prefix here also
+            Volo.Abp.AuditLogging.AbpAuditLoggingDbProperties.DbTablePrefix = "Dy";
+            Volo.Abp.BackgroundJobs.BackgroundJobsDbProperties.DbTablePrefix = "Dy";
+            Volo.Abp.FeatureManagement.FeatureManagementDbProperties.DbTablePrefix = "Dy";
+            Volo.Abp.IdentityServer.AbpIdentityServerDbProperties.DbTablePrefix = "Dy";
+            Volo.Abp.Identity.AbpIdentityDbProperties.DbTablePrefix = "Dy";
+            Volo.Abp.PermissionManagement.AbpPermissionManagementDbProperties.DbTablePrefix = "Dy";
+            Volo.Abp.SettingManagement.AbpSettingManagementDbProperties.DbTablePrefix = "Dy";
+            Volo.Abp.TenantManagement.AbpTenantManagementDbProperties.DbTablePrefix = "Dy";
+            //BloggingDbProperties.DbTablePrefix = "Dy";
+            //DocsDbProperties.DbTablePrefix = "Dy";
+            
+            Log.Logger = new LoggerConfiguration()
+                .MinimumLevel.Information()
+                .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
+                .MinimumLevel.Override("Volo.Abp", LogEventLevel.Warning)
+#if DEBUG
+                .MinimumLevel.Override("Acme.BookStore", LogEventLevel.Debug)
+#else
+                .MinimumLevel.Override("Acme.BookStore", LogEventLevel.Information)
+#endif
+                .Enrich.FromLogContext()
+                .WriteTo.File(Path.Combine(Directory.GetCurrentDirectory(), "Logs/logs.txt"))
+                .WriteTo.Console()
+                .CreateLogger();
 
-
-  Volo.Abp.AuditLogging.AbpAuditLoggingDbProperties.DbTablePrefix = "Dy";
-  Volo.Abp.BackgroundJobs.BackgroundJobsDbProperties.DbTablePrefix = "Dy";
-
-  Volo.Abp.FeatureManagement.FeatureManagementDbProperties.DbTablePrefix = "Dy";
-  Volo.Abp.IdentityServer.AbpIdentityServerDbProperties.DbTablePrefix = "Dy";
-  Volo.Abp.Identity.AbpIdentityDbProperties.DbTablePrefix = "Dy";
-  Volo.Abp.PermissionManagement.AbpPermissionManagementDbProperties.DbTablePrefix = "Dy";
-  Volo.Abp.SettingManagement.AbpSettingManagementDbProperties.DbTablePrefix = "Dy";
-
-  Volo.Abp.TenantManagement.AbpTenantManagementDbProperties.DbTablePrefix = "Dy";
-
-  //BloggingDbProperties.DbTablePrefix = "Dy";
-  //DocsDbProperties.DbTablePrefix = "Dy";
+            await CreateHostBuilder(args).RunConsoleAsync();
+        }
+  
