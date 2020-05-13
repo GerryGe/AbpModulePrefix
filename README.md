@@ -44,7 +44,7 @@ For example:
     
 
 
-    ..\Dychar.Dyframe.DbMigrator\Program.cs
+    ..\Acme.BookStore.DbMigrator\Program.cs file:
     
     static async Task Main(string[] args)
         {
