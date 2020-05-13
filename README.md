@@ -42,7 +42,10 @@ For example:
         return new BookStoreMigrationsDbContext(builder.Options);
     }
     
+
+
     ..\Dychar.Dyframe.DbMigrator\Program.cs
+    
     static async Task Main(string[] args)
         {
              //Setting your table prefix here also
@@ -61,11 +64,7 @@ For example:
                 .MinimumLevel.Information()
                 .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
                 .MinimumLevel.Override("Volo.Abp", LogEventLevel.Warning)
-#if DEBUG
                 .MinimumLevel.Override("Acme.BookStore", LogEventLevel.Debug)
-#else
-                .MinimumLevel.Override("Acme.BookStore", LogEventLevel.Information)
-#endif
                 .Enrich.FromLogContext()
                 .WriteTo.File(Path.Combine(Directory.GetCurrentDirectory(), "Logs/logs.txt"))
                 .WriteTo.Console()
@@ -73,4 +72,4 @@ For example:
 
             await CreateHostBuilder(args).RunConsoleAsync();
         }
-  
+ 
