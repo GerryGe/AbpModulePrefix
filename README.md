@@ -1,3 +1,6 @@
+Update:
+AbpCommonDbProperties.DbTablePrefix="Dy";
+
 # AbpModulePrefix
 Edit Module Table Prefix/Scheme
 
